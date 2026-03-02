@@ -7,6 +7,13 @@ from datetime import datetime
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+# Ajuste de tempo para Pyrogram
+import time
+from pyrogram.session.session import Session
+
+# Sincronizar tempo com o servidor Telegram
+Session.WAIT_TIMEOUT = 10
+
 # --- LEITURA SEGURA DAS CREDENCIAIS ---
 API_ID = os.environ.get("API_ID")
 API_HASH = os.environ.get("API_HASH")
@@ -275,17 +282,10 @@ async def receber_estoque(client, message):
 # ==================
 if __name__ == "__main__":
     print("BOT INICIANDO...")
-    
-    # Sincronizar relógio (apenas em Linux/Railway)
-    if sys.platform != "win32":
-        try:
-            # Tenta usar timedatectl
-            subprocess.run(["timedatectl", "set-ntp", "true"], capture_output=True, timeout=5)
-        except:
-            try:
-                # Tenta usar ntpd
-                subprocess.run(["service", "ntp", "start"], capture_output=True, timeout=5)
-            except:
-                pass
-    
-    app.run()
+    try:
+        app.run()
+    except Exception as e:
+        print(f"Erro ao iniciar bot: {e}")
+        import time
+        time.sleep(5)
+        app.run()
