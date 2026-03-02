@@ -35,6 +35,28 @@ app = Client(
     api_hash=API_HASH,
     bot_token=BOT_TOKEN
 )
+# ID do grupo para logs
+LOG_GROUP_ID = -1001677153118
+async def enviar_log_compra(client, bin_info, valor, user_id):
+    """Envia log de compra para o grupo"""
+    try:
+        mensagem = f"""
+🛒 <b>Mais uma compra realizada na store!</b>
+
+<b>BIN:</b> {bin_info.split(' - ')[0] if ' - ' in bin_info else bin_info}
+<b>Info:</b> {bin_info}
+<b>Valor:</b> R$ {valor}
+<b>User ID:</b> {user_id}
+
+<b>Compre também no botão abaixo:</b>
+"""
+        botao = InlineKeyboardMarkup([
+            [InlineKeyboardButton("🤖 Ir para o Bot", url="https://t.me/@Paiva021_bot" )]
+        ])
+        
+        await client.send_message(LOG_GROUP_ID, mensagem, reply_markup=botao, parse_mode="html")
+    except Exception as e:
+        print(f"Erro ao enviar log: {e}")
 
 # ==================
 # LISTA DE BANNERS
@@ -230,7 +252,7 @@ async def callbacks(client, callback):
     # VOLTAR MENU
     elif callback.data == "menu":
         await menu_principal(callback.message, user_id)
-
+await enviar_log_compra(client, card["gg"], preco, user_id)
 # ==================
 # COMANDOS ADM
 # ==================
