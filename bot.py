@@ -1,8 +1,11 @@
 import os
 import subprocess
 import sys
+import json
+import random
+from datetime import datetime
 from pyrogram import Client, filters
-
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # --- LEITURA SEGURA DAS CREDENCIAIS ---
 API_ID = os.environ.get("API_ID")
@@ -14,12 +17,26 @@ if not all([API_ID, API_HASH, BOT_TOKEN]):
     print("ERRO: Variáveis de ambiente não configuradas!")
     exit(1)
 
+# ==================
+# CONFIGURAÇÕES
+# ==================
+ADMINS = [6022965096, 7472622094]
+
 app = Client(
     "bot",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN
 )
+
+# ==================
+# LISTA DE BANNERS
+# ==================
+BANNERS = [
+    os.path.join(os.getcwd(), "banners", "banner.jpg"),
+    os.path.join(os.getcwd(), "banners", "banner2.jpg"),
+    os.path.join(os.getcwd(), "banners", "banner3.jpg")
+]
 
 # ==================
 # FUNÇÕES DE ARQUIVOS
@@ -256,10 +273,6 @@ async def receber_estoque(client, message):
 # ==================
 # RUN BOT
 # ==================
-print("BOT ONLINE")
 if __name__ == "__main__":
-    # Sincronizar relógio
-    if sys.platform != "win32":
-        subprocess.run(["ntpdate", "-s", "time.nist.gov"], capture_output=True)
-    
+    print("BOT INICIANDO...")
     app.run()
