@@ -275,4 +275,17 @@ async def receber_estoque(client, message):
 # ==================
 if __name__ == "__main__":
     print("BOT INICIANDO...")
+    
+    # Sincronizar relógio (apenas em Linux/Railway)
+    if sys.platform != "win32":
+        try:
+            # Tenta usar timedatectl
+            subprocess.run(["timedatectl", "set-ntp", "true"], capture_output=True, timeout=5)
+        except:
+            try:
+                # Tenta usar ntpd
+                subprocess.run(["service", "ntp", "start"], capture_output=True, timeout=5)
+            except:
+                pass
+    
     app.run()
