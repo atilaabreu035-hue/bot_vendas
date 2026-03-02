@@ -1,7 +1,8 @@
+import os
 import subprocess
 import sys
-
 from pyrogram import Client, filters
+
 
 # --- LEITURA SEGURA DAS CREDENCIAIS ---
 API_ID = os.environ.get("API_ID")
