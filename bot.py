@@ -35,8 +35,10 @@ app = Client(
     api_hash=API_HASH,
     bot_token=BOT_TOKEN
 )
+
 # ID do grupo para logs
 LOG_GROUP_ID = -1001677153118
+
 async def enviar_log_compra(client, bin_info, valor, user_id):
     """Envia log de compra para o grupo"""
     try:
@@ -51,7 +53,7 @@ async def enviar_log_compra(client, bin_info, valor, user_id):
 <b>Compre também no botão abaixo:</b>
 """
         botao = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🤖 Ir para o Bot", url="https://t.me/@Paiva021_bot" )]
+            [InlineKeyboardButton("🤖 Ir para o Bot", url="https://t.me/@Paiva021_bot")]
         ])
         
         await client.send_message(LOG_GROUP_ID, mensagem, reply_markup=botao, parse_mode="html")
@@ -247,15 +249,13 @@ async def callbacks(client, callback):
         numero, mes, ano, cvv = card["gg"].split("|")
         texto = f"✅ Compra Efetuada\n\n💳 Cartão: {numero}\n📆 Data: {mes}/{ano}\nCVV: {cvv}\n💰 Preço: R$ {preco}\n💰 Saldo restante: R$ {usuarios[user_id]['saldo']}"
         botoes = InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Menu", "menu")]])
-     
-     await callback.message.edit_text(texto, reply_markup=botoes)
-      
-     await enviar_log_compra(client, card["gg"], preco, user_id)
-
+        await callback.message.edit_text(texto, reply_markup=botoes)
+        await enviar_log_compra(client, card["gg"], preco, user_id)
 
     # VOLTAR MENU
     elif callback.data == "menu":
         await menu_principal(callback.message, user_id)
+
 # ==================
 # COMANDOS ADM
 # ==================
@@ -314,3 +314,5 @@ if __name__ == "__main__":
         import time
         time.sleep(5)
         app.run()
+
+
