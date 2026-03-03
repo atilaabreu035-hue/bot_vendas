@@ -224,7 +224,7 @@ async def callbacks(client, callback):
             [InlineKeyboardButton("🛒 Comprar", callback_data=f"buy_{bin}")],
             [InlineKeyboardButton("🔙 Voltar", callback_data="comprar")]
         ])
-        await callback.message.edit_text(texto, reply_markup=botoes)
+         await callback.message.edit_text(texto, reply_markup=botoes)
 
     # FINALIZAR COMPRA
     elif "buy_" in callback.data:
@@ -247,8 +247,10 @@ async def callbacks(client, callback):
         numero, mes, ano, cvv = card["gg"].split("|")
         texto = f"✅ Compra Efetuada\n\n💳 Cartão: {numero}\n📆 Data: {mes}/{ano}\nCVV: {cvv}\n💰 Preço: R$ {preco}\n💰 Saldo restante: R$ {usuarios[user_id]['saldo']}"
         botoes = InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Menu", "menu")]])
-      await callback.message.edit_text(texto, reply_markup=botoes)
-      await enviar_log_compra(client, card["gg"], preco, user_id)
+     
+     await callback.message.edit_text(texto, reply_markup=botoes)
+      
+     await enviar_log_compra(client, card["gg"], preco, user_id)
 
 
     # VOLTAR MENU
