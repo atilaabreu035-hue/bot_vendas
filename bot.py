@@ -13,6 +13,13 @@ from pyrogram.session.session import Session
 
 # Sincronizar tempo com o servidor Telegram
 Session.WAIT_TIMEOUT = 10
+# Sincronização de Relógio para Railway
+if sys.platform != "win32":
+    try:
+        subprocess.run(["timedatectl", "set-ntp", "true"], check=False, timeout=5)
+        subprocess.run(["ntpdate", "-s", "pool.ntp.org"], check=False, timeout=5)
+    except:
+        pass
 
 # --- LEITURA SEGURA DAS CREDENCIAIS ---
 API_ID = os.environ.get("API_ID")
@@ -56,7 +63,7 @@ async def enviar_log_compra(client, bin_info, valor, user_id):
             [InlineKeyboardButton("🤖 Ir para o Bot", url="https://t.me/@Paiva021_bot")]
         ])
         
-        await client.send_message(LOG_GROUP_ID, mensagem, reply_markup=botao, parse_mode="html")
+        await client.send_message(LOG_GROUP_ID, mensagem, reply_markup=botao, parse_mode="HTML")
     except Exception as e:
         print(f"Erro ao enviar log: {e}")
 
