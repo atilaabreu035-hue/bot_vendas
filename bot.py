@@ -224,7 +224,7 @@ async def callbacks(client, callback):
             [InlineKeyboardButton("🛒 Comprar", callback_data=f"buy_{bin}")],
             [InlineKeyboardButton("🔙 Voltar", callback_data="comprar")]
         ])
-         await callback.message.edit_text(texto, reply_markup=botoes)
+        await callback.message.edit_text(texto, reply_markup=botoes)
 
     # FINALIZAR COMPRA
     elif "buy_" in callback.data:
